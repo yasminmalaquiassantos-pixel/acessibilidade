@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Digital Seguro - Segurança para a Melhor Idade</title>
+  
+  <!-- Tailwind CSS para estilização moderna e responsiva -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* Variáveis para controle dinâmico de tamanho de fonte */
+    :root {
+      --text-scale: 1.1rem;
+      --title-scale: 1.6rem;
+    }
+
+    body {
+      font-size: var(--text-scale);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Classe de Alto Contraste para acessibilidade visual */
+    .alto-contraste {
+      background-color: #000000 !important;
+      color: #FFFF00 !important;
+    }
+    
+    .alto-contraste .card-acessivel {
+      background-color: #121212 !important;
+      border: 3px solid #FFFF00 !important;
+      color: #FFFFFF !important;
+    }
+
+    .alto-contraste button {
+      background-color: #FFFF00 !important;
+      color: #000000 !important;
+      border: 2px solid #FFFFFF !important;
+    }
+
+    .alto-contraste button:hover {
+      background-color: #FFFFFF !important;
+      color: #000000 !important;
+    }
+
+    .alto-contraste .texto-destaque {
+      color: #FFFF00 !important;
+    }
+
+    .alto-contraste svg {
+      stroke: currentColor !important;
+    }
+
+    button:focus {
+      outline: 4px solid #3b82f6;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col pb-12">
+
+  <!-- CABEÇALHO ACESSÍVEL -->
+  <header class="bg-blue-600 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Logotipo e Título Principal -->
+      <div class="flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+        <div>
+          <h1 class="font-bold text-2xl sm:text-3xl tracking-tight">Guia Digital Seguro</h1>
+          <p class="text-sm text-blue-100 font-medium">Sua internet mais protegida e tranquila</p>
+        </div>
+      </div>
+
+      <!-- PAINEL DE ACESSIBILIDADE -->
+      <div class="flex flex-wrap items-center gap-2 bg-blue-700 p-2 rounded-xl border border-blue-500 shadow-inner w-full sm:w-auto justify-center">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-200 mr-1 block w-full text-center sm:w-auto">Acessibilidade:</span>
+        
+        <!-- Botão Diminuir Texto -->
+        <button onclick="alterarFonte(-2)" class="px-3 py-2 bg-white text-blue-800 font-bold rounded-lg hover:bg-gray-100 transition flex items-center gap-1 text-sm shadow-sm" aria-label="Diminuir tamanho da letra">
+          <span>A-</span>
+        </button>
+
+        <!-- Botão Aumentar Texto -->
+        <button onclick="alterarFonte(2)" class="px-3 py-2 bg-white text-blue-800 font-bold rounded-lg hover:bg-gray-100 transition flex items-center gap-1 text-sm shadow-sm" aria-label="Aumentar tamanho da letra">
+          <span class="text-lg">A+</span>
+        </button>
+
+        <!-- Botão Alto Contraste -->
+        <button onclick="alternarContraste()" class="px-3 py-2 bg-gray-900 text-yellow-300 font-bold rounded-lg hover:bg-black transition flex items-center gap-1 text-sm border border-gray-700 shadow-sm" aria-label="Alternar cores fortes">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <span>Contraste</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- NOTIFICAÇÃO DE VOZ ATIVA -->
+  <div id="aviso-voz" class="bg-yellow-100 border-b border-yellow-300 py-2.5 px-4 text-center text-yellow-950 font-bold text-sm flex justify-center items-center gap-2">
+    <span>🔊 <strong>Dica de Voz:</strong> Clique nos botões verdes com o símbolo de som para ouvir os textos em voz alta!</span>
+  </div>
+
+  <!-- MENU DE NAVEGAÇÃO PRINCIPAL -->
+  <nav class="bg-white shadow-md border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-2 py-3 flex gap-2 overflow-x-auto">
+      
+      <button onclick="mudarAba('aprender')" id="btn-aprender" class="flex-1 py-4 px-3 rounded-xl font-bold text-lg flex flex-col items-center gap-1 transition-all bg-blue-50 text-blue-600 border-2 border-blue-500 min-w-[120px]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <span>1. Aprender Dicas</span>
+      </button>
+
+      <button onclick="mudarAba('analisador')" id="btn-analisador" class="flex-1 py-4 px-3 rounded-xl font-bold text-lg flex flex-col items-center gap-1 transition-all bg-white text-gray-600 border-2 border-transparent hover:bg-gray-100 min-w-[120px]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <span>2. Detetor de Golpes</span>
+      </button>
+
+      <button onclick="mudarAba('treinar')" id="btn-treinar" class="flex-1 py-4 px-3 rounded-xl font-bold text-lg flex flex-col items-center gap-1 transition-all bg-white text-gray-600 border-2 border-transparent hover:bg-gray-100 min-w-[120px]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>3. Jogo de Treino</span>
+      </button>
+
+      <button onclick="mudarAba('ajuda')" id="btn-ajuda" class="flex-1 py-4 px-3 rounded-xl font-bold text-lg flex flex-col items-center gap-1 transition-all bg-white text-gray-600 border-2 border-transparent hover:bg-gray-100 min-w-[120px]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+        </svg>
+        <span>4. Contactos Úteis</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="max-w-3xl mx-auto px-4 mt-6 flex-grow w-full">
+
+    <!-- TAB 1: APRENDER DICAS -->
+    <section id="aba-aprender" class="fade-in space-y-6">
+      
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-extrabold text-blue-900 texto-destaque">Escolha um assunto para ler e ouvir:</h2>
+        <p class="text-gray-600 text-lg mt-2">Clique nos cartões abaixo para abrir informações fáceis de entender.</p>
+      </div>
+
+      <!-- DICA 1: SENHAS -->
+      <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden card-acessivel">
+        <div class="p-6 flex flex-col sm:flex-row items-start gap-4">
+          <div class="p-4 bg-blue-100 rounded-full text-blue-600 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <div class="flex-grow space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="text-2xl font-bold text-gray-900">1. Como criar Senhas Seguras</h3>
+              <button onclick="ouvirTexto('Dica número 1: Como criar Senhas Seguras. Nunca use o seu nome, data de nascimento ou nomes de familiares. Misture palavras que você gosta com números e símbolos como o cardinal ou pontos. Por exemplo: Café Quente cardinal 42. Nunca aponte a sua senha atrás do cartão de multibanco!')" class="px-4 py-2 bg-green-600 text-white rounded-full font-bold flex items-center gap-2 hover:bg-green-700 transition" aria-label="Ouvir dica sobre senhas">
+                <span>🔊 Ouvir</span>
+              </button>
+            </div>
+            <p class="text-gray-700 text-lg leading-relaxed">
+              Evite usar datas de nascimento, nomes de familiares ou sequências fáceis como <strong class="bg-yellow-100 px-1 rounded text-gray-900">123456</strong>.
+            </p>
+            <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-500 text-gray-800">
+              <strong class="block text-blue-900 mb-1">💡 Dica Simples:</strong> 
+              Crie uma senha juntando coisas simples que gosta com números. <br>Exemplo prático: <strong class="text-blue-900">SopaDeLegumes#2026</strong>. 
+              Fica super forte e fácil de lembrar!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DICA 2: GOLPE DO WHATSAPP -->
+      <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden card-acessivel">
+        <div class="p-6 flex flex-col sm:flex-row items-start gap-4">
+          <div class="p-4 bg-emerald-100 rounded-full text-emerald-600 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
+          <div class="flex-grow space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="text-2xl font-bold text-gray-900">2. O "Golpe do Olá Pai" no WhatsApp</h3>
+              <button onclick="ouvirTexto('Dica número 2: O Golpe do Olá Pai no WhatsApp. Se um número desconhecido mandar mensagem a fingir que é o seu filho ou neto e pedir dinheiro urgente, pare! Ligue imediatamente para o número antigo do seu familiar para confirmar. Nunca envie dinheiro ou códigos sem falar com a pessoa por voz.')" class="px-4 py-2 bg-green-600 text-white rounded-full font-bold flex items-center gap-2 hover:bg-green-700 transition" aria-label="Ouvir dica sobre golpe do whatsapp">
+                <span>🔊 Ouvir</span>
+              </button>
+            </div>
+            <p class="text-gray-700 text-lg leading-relaxed">
+              Alguém envia mensagem de um número novo dizendo: <em>"Olá mãe, mudei de número. Preciso que me pagues uma conta urgente!"</em>.
+            </p>
+            <div class="bg-emerald-50 p-4 rounded-xl border-l-4 border-emerald-500 text-gray-800">
+              <strong class="block text-emerald-900 mb-1">💡 Dica Simples:</strong> 
+              Nunca envie dinheiro ou faça pagamentos sem antes fazer uma <strong>chamada de voz normal</strong> para o número de sempre do seu familiar para confirmar se é mesmo verdade!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DICA 3: MENSAGENS SUSPEITAS -->
+      <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden card-acessivel">
+        <div class="p-6 flex flex-col sm:flex-row items-start gap-4">
+          <div class="p-4 bg-purple-100 rounded-full text-purple-600 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div class="flex-grow space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="text-2xl font-bold text-gray-900">3. SMS e Links Falsos de Bancos ou Correios</h3>
+              <button onclick="ouvirTexto('Dica número 3: Links Falsos de Bancos ou Correios. Se receber uma mensagem a dizer que tem uma encomenda presa ou que o seu cartão do banco foi bloqueado com um link azul para clicar, não clique! Os bancos nunca mandam mensagens com links para clicar para desbloquear contas.')" class="px-4 py-2 bg-green-600 text-white rounded-full font-bold flex items-center gap-2 hover:bg-green-700 transition" aria-label="Ouvir dica sobre links falsos">
+                <span>🔊 Ouvir</span>
+              </button>
+            </div>
+            <p class="text-gray-700 text-lg leading-relaxed">
+              Chegam mensagens como: <em>"A sua encomenda está retida, pague 1,99€ para levantar"</em> ou <em>"Evite o bloqueio da sua conta clicando aqui"</em>.
+            </p>
+            <div class="bg-purple-50 p-4 rounded-xl border-l-4 border-purple-500 text-gray-800">
+              <strong class="block text-purple-900 mb-1">💡 Dica Simples:</strong> 
+              Os bancos e os correios <strong>nunca</strong> mandam links diretos para colocar as suas palavras-passe ou dados pessoais. Na dúvida, não clique em nada e apague a mensagem!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 2: DETETOR DE GOLPES (GEMINI ARTIFICIAL INTELLIGENCE SIMULATOR) -->
+    <section id="aba-analisador" class="hidden fade-in space-y-6">
+      <div class="text-center mb-6">
+        <span class="px-4 py-1.5 bg-blue-100 text-blue-800 text-sm font-bold rounded-full uppercase tracking-wider">Simulador de Proteção</span>
+        <h2 class="text-3xl font-extrabold text-blue-900 mt-2 texto-destaque">Detetor de Mensagens Suspeitas</h2>
+        <p class="text-gray-600 text-lg mt-2">
+          Recebeu alguma mensagem estranha no telemóvel, WhatsApp ou e-mail? Escreva ou cole-a aqui abaixo para analisar se é perigosa.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-200 card-acessivel space-y-4">
+        <label for="texto-mensagem" class="block text-xl font-bold text-gray-800">Cole ou digite a mensagem aqui:</label>
+        <textarea id="texto-mensagem" rows="5" class="w-full p-4 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-0 text-lg text-gray-900" placeholder="Exemplo: Olá mãe, mudei de número. Guarda o meu novo contacto e envia-me 200 euros por favor..."></textarea>
+        
+        <div class="flex flex-wrap gap-2">
+          <button onclick="preencherExemplo('Olá mãe, o meu telemóvel partiu. Este é o meu número novo temporário. Podes enviar 350€ para pagar uma conta urgente? Beijos')" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-bold border border-gray-300 transition">
+            📝 Testar Exemplo 1 (Olá Pai/Mãe)
+          </button>
+          <button onclick="preencherExemplo('CCT: A sua encomenda não pôde ser entregue devido a falta de pagamento. Pague 1.85€ em: https://cct-entrega-suporte.com')" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-bold border border-gray-300 transition">
+            📝 Testar Exemplo 2 (Encomenda Falsa)
+          </button>
+        </div>
+
+        <button onclick="analisarMensagemComIA()" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xl rounded-xl transition shadow flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
+          <span>Analisar Mensagem</span>
+        </button>
+      </div>
+
+      <!-- ÁREA DE RESULTADO DA ANÁLISE -->
+      <div id="resultado-analise" class="hidden fade-in bg-white rounded-2xl p-6 shadow-md border-2 card-acessivel">
+        <!-- Injetado dinamicamente via Javascript -->
+      </div>
+
+    </section>
+
+    <!-- TAB 3: JOGO DE TREINO (QUIZ) -->
+    <section id="aba-treinar" class="hidden fade-in space-y-6">
+      <div class="text-center mb-6">
+        <span class="px-4 py-1.5 bg-amber-100 text-amber-800 text-sm font-bold rounded-full uppercase tracking-wider">Treino Prático</span>
+        <h2 class="text-3xl font-extrabold text-blue-900 mt-2 texto-destaque">Jogo da Internet Segura</h2>
+        <p class="text-gray-600 text-lg mt-2">
+          Teste os seus conhecimentos com perguntas simples! Não se preocupe se errar, o importante é aprender de forma divertida.
+        </p>
+      </div>
+
+      <!-- CARD DO QUIZ -->
+      <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-200 card-acessivel" id="card-quiz">
+        <!-- Injetado dinamicamente por JavaScript -->
+      </div>
+    </section>
+
+    <!-- TAB 4: PEDIR AJUDA -->
+    <section id="aba-ajuda" class="hidden fade-in space-y-6">
+      <div class="text-center mb-6">
+        <h2 class="text-3xl font-extrabold text-blue-900 texto-destaque">Precisa de Ajuda Pronta?</h2>
+        <p class="text-gray-600 text-lg mt-2">Se desconfia de alguma coisa ou acha que foi enganado, peça ajuda logo! Fale com as autoridades ou familiares.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Contacto Policial -->
+        <div class="bg-white rounded-2xl p-6 border border-gray-200 card-acessivel flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="inline-block p-3 bg-red-100 text-red-600 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900">Número de Emergência</h3>
+            <p class="text-gray-600">Ligue imediatamente para o número nacional se suspeitar de crime ou burla ativa.</p>
+          </div>
+          <a href="tel:112" class="block w-full text-center py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-2xl rounded-xl transition shadow">
+            📞 Ligar 112
+          </a>
+        </div>
+
+        <!-- Linha Internet Segura / Apoio -->
+        <div class="bg-white rounded-2xl p-6 border border-gray-200 card-acessivel flex flex-col justify-between space-y-4">
+          <div class="space-y-2">
+            <div class="inline-block p-3 bg-blue-100 text-blue-600 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.172l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900">Apoio Internet Segura</h3>
+            <p class="text-gray-600">Linha telefónica de apoio gratuito para esclarecer dúvidas sobre segurança e computadores.</p>
+          </div>
+          <a href="tel:800210340" class="block w-full text-center py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-2xl rounded-xl transition shadow">
+            📞 Ligar 800 210 340
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Seção de Familiares -->
+      <div class="bg-blue-50 rounded-2xl p-6 border-2 border-blue-200 card-acessivel space-y-4">
+        <h3 class="text-2xl font-bold text-blue-900 flex items-center gap-2">
+          <span>👨‍👩‍👧‍👦 Lista de Familiares de Confiança</span>
+        </h3>
+        <p class="text-gray-700">Adicione aqui o nome e telefone de pessoas amigas ou familiares que o podem ajudar em segundos.</p>
+        
+        <div id="lista-contactos" class="space-y-3">
+          <!-- Contactos guardados aparecem aqui -->
+        </div>
+
+        <!-- Formulário para adicionar -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+          <input type="text" id="novo-nome" placeholder="Nome (Ex: Filho João)" class="p-3 border-2 border-gray-300 rounded-xl text-lg text-gray-900" />
+          <input type="tel" id="novo-tel" placeholder="Nº de Telefone" class="p-3 border-2 border-gray-300 rounded-xl text-lg text-gray-900" />
+          <button onclick="adicionarContacto()" class="p-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-lg transition">
+            + Adicionar
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- NOTIFICAÇÕES FLUTUANTES (TOASTS) -->
+  <div id="toast-notificacao" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white py-3 px-6 rounded-2xl shadow-xl font-bold text-lg hidden z-50 flex items-center gap-2">
+    <span id="toast-texto">Notificação</span>
+  </div>
+
+  <script>
+    // --- VARIÁVEIS DO GEMINI API ---
+    // A chave de API correta é injetada automaticamente pela plataforma no tempo de execução.
+    const apiKey = ""; 
+
+    // --- CONTROLE DE ACESSIBILIDADE ---
+    let escalaAtual = 100; // Porcentagem do tamanho da fonte
+
+    function alterarFonte(direcao) {
+      escalaAtual += direcao * 10;
+      // Garante limites seguros para acessibilidade de leitura
+      if (escalaAtual < 80) escalaAtual = 80;
+      if (escalaAtual > 160) escalaAtual = 160;
+      
+      document.documentElement.style.setProperty('--text-scale', (escalaAtual / 100) * 1.1 + 'rem');
+      document.documentElement.style.setProperty('--title-scale', (escalaAtual / 100) * 1.6 + 'rem');
+      mostrarToast(`Tamanho do texto ajustado para ${escalaAtual}%`);
+    }
+
+    function alternarContraste() {
+      document.body.classList.toggle('alto-contraste');
+      const ativo = document.body.classList.contains('alto-contraste');
+      mostrarToast(ativo ? "Modo Alto Contraste Ativado" : "Modo Normal Ativado");
+    }
+
+    // --- SINTETIZADOR DE VOZ (Offline e instantâneo para idosos) ---
+    function ouvirTexto(texto) {
+      // Cancela falas anteriores para não encavalar
+      window.speechSynthesis.cancel();
+      
+      const locucao = new SpeechSynthesisUtterance(texto);
+      locucao.lang = 'pt-PT'; // Sotaque em português de Portugal
+      locucao.rate = 0.85;     // Ritmo ligeiramente pausado e confortável
+      
+      window.speechSynthesis.speak(locucao);
+      mostrarToast("🔊 Reproduzindo áudio...");
+    }
+
+    // --- NAVEGAÇÃO ENTRE ABAS ---
+    function mudarAba(aba) {
+      // Para qualquer som ativo ao navegar
+      window.speechSynthesis.cancel();
+
+      // Esconder todas
+      document.getElementById('aba-aprender').classList.add('hidden');
+      document.getElementById('aba-analisador').classList.add('hidden');
+      document.getElementById('aba-treinar').classList.add('hidden');
+      document.getElementById('aba-ajuda').classList.add('hidden');
+
+      // Remover destaque dos botões
+      const botoes = ['btn-aprender', 'btn-analisador', 'btn-treinar', 'btn-ajuda'];
+      botoes.forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        btn.className = "flex-1 py-4 px-3 rounded-xl font-bold text-lg flex flex-col items-center gap-1 transition-all bg-white text-gray-600 border-2 border-transparent hover:bg-gray-100 min-w-[120px]";
+      });
+
+      // Mostrar aba ativa
+      document.getElementById(`aba-${aba}`).classList.remove('hidden');
+      
+      // Destacar botão ativo
+      const btnAtivo = document.getElementById(`btn-${aba}`);
+      btnAtivo.className = "flex-1 py-4 px-3 rounded-xl font-bold text-lg flex flex-col items-center gap-1 transition-all bg-blue-50 text-blue-600 border-2 border-blue-500 min-w-[120px]";
+
+      // Inicialização específica da aba
+      if (aba === 'treinar') {
+        reiniciarQuiz();
+      }
+    }
+
+    // --- EXIBIR NOTIFICAÇÃO FLUTUANTE ---
+    function mostrarToast(mensagem) {
+      const toast = document.getElementById('toast-notificacao');
+      const texto = document.getElementById('toast-texto');
+      texto.innerText = mensaje = mensagem;
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // --- DETETOR DE GOLPES (Análise de Mensagem Inteligente via Gemini) ---
+    function preencherExemplo(texto) {
+      document.getElementById('texto-mensagem').value = texto;
+      mostrarToast("Mensagem de exemplo carregada!");
+    }
+
+    // Implementação resiliente com retry exponencial para chamadas à API Gemini
+    async function chamarGeminiComRetry(promptSistema, promptUsuario, retries = 5, delay = 1000) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{ parts: [{ text: promptUsuario }] }],
+        systemInstruction: { parts: [{ text: promptSistema }] }
+      };
+
+      for (let i = 0; i < retries; i++) {
+        try {
+          const resposta = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (resposta.ok) {
+            return await resposta.json();
+          }
+        } catch (erro) {
+          // Falha silenciosa para tentar novamente conforme as diretrizes
+        }
+        await new Promise(resolve => setTimeout(resolve, delay));
+        delay *= 2; // Backoff exponencial
+      }
+      throw new Error("Não foi possível conectar ao sistema após várias tentativas.");
+    }
+
+    async function analisarMensagemComIA() {
+      const textoMsg = document.getElementById('texto-mensagem').value.trim();
+      const areaResultado = document.getElementById('resultado-analise');
+
+      if (!textoMsg) {
+        areaResultado.classList.remove('hidden');
+        areaResultado.className = "bg-orange-50 border-orange-500 border-2 p-6 rounded-2xl fade-in card-acessivel";
+        areaResultado.innerHTML = `
+          <h4 class="text-xl font-bold text-orange-900 mb-2">Por favor, digite alguma coisa primeiro</h4>
+          <p class="text-gray-700">Precisa digitar ou colar um texto na caixa acima para podermos avaliar se é seguro ou não.</p>
+        `;
+        return;
+      }
+
+      areaResultado.classList.remove('hidden');
+      areaResultado.className = "bg-blue-50 border-blue-500 border-2 p-6 rounded-2xl fade-in card-acessivel text-center";
+      areaResultado.innerHTML = `
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600 mb-2"></div>
+        <h4 class="text-xl font-bold text-blue-900">Analisando a mensagem com atenção...</h4>
+        <p class="text-gray-700">A nossa inteligência protetora está a ler com muito cuidado. Só um momento!</p>
+      `;
+
+      const promptSistema = `Você é um Assistente de Segurança Digital focado em ajudar pessoas idosas.
+Sua tarefa é ler uma mensagem suspeita e determinar de forma muito carinhosa, simples, direta e usando letras grandes, se ela parece ser um GOLPE, se é SUSPEITA ou se parece SEGURA.
+Regras importantes:
+- Use termos simples. Evite jargões técnicos complexos.
+- Escreva em Português de Portugal.
+- No início de tudo, diga de forma claríssima se é: PERIGO DE GOLPE, ATENÇÃO/CUIDADO ou SEGURO.
+- Dê conselhos práticos e diretos do que a pessoa deve fazer a seguir (ex: não clicar, ligar para o filho, etc).
+- Mantenha o tom extremamente acolhedor e protetor, sem deixar o idoso assustador ou culpado.`;
+
+      const promptUsuario = `Analise esta mensagem que recebi no meu telemóvel: "${textoMsg}"`;
+
+      try {
+        const data = await chamarGeminiComRetry(promptSistema, promptUsuario);
+        const textoAnalise = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!textoAnalise) {
+          throw new Error("Resposta inválida da inteligência protetora.");
+        }
+
+        // Determinar estilo visual baseado na resposta gerada
+        let estiloBorda = "border-amber-500 bg-amber-50";
+        let corDestaque = "text-amber-900";
+        let icone = "⚠️";
+
+        if (textoAnalise.toUpperCase().includes("GOLPE") || textoAnalise.toUpperCase().includes("PERIGO")) {
+          estiloBorda = "border-red-500 bg-red-50";
+          corDestaque = "text-red-900";
+          icone = "🛑";
+        } else if (textoAnalise.toUpperCase().includes("SEGURO")) {
+          estiloBorda = "border-green-500 bg-green-50";
+          corDestaque = "text-green-900";
+          icone = "✅";
+        }
+
+        // Renderizar resultado no ecran
+        areaResultado.className = `p-6 rounded-2xl border-4 ${estiloBorda} fade-in card-acessivel space-y-4`;
+        
+        // Conversão simples de markdown para parágrafos legíveis
+        const textoFormatado = textoAnalise
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-blue-950">$1</strong>')
+          .replace(/\n/g, '<br>');
+
+        areaResultado.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="text-4xl shrink-0">${icone}</span>
+            <h4 class="text-2xl font-extrabold ${corDestaque}">Resultado da nossa análise:</h4>
+          </div>
+          <div class="text-lg text-gray-900 leading-relaxed bg-white p-4 rounded-xl shadow-inner border border-gray-100">
+            ${textoFormatado}
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2 pt-2">
+            <button onclick="ouvirTexto(\`${textoAnalise.replace(/["'`\\]/g, '')}\`)" class="flex-1 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl text-lg transition flex items-center justify-center gap-2">
+              <span>🔊 Ouvir Análise em Voz Alta</span>
+            </button>
+            <button onclick="limparAnalisador()" class="py-3 px-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl text-lg transition">
+              Limpar
+            </button>
+          </div>
+        `;
+
+        mostrarToast("Análise concluída com sucesso!");
+
+      } catch (erro) {
+        areaResultado.className = "bg-red-50 border-red-500 border-2 p-6 rounded-2xl fade-in card-acessivel";
+        areaResultado.innerHTML = `
+          <h4 class="text-xl font-bold text-red-900 mb-2">Pedimos desculpa, o detetor falhou temporariamente</h4>
+          <p class="text-gray-700 mb-4">A nossa ligação à rede protetora falhou. Na dúvida, lembre-se: nunca partilhe dados pessoais, senhas ou faça transferências!</p>
+          <button onclick="analisarMensagemComIA()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition">
+            Tentar de Novo
+          </button>
+        `;
+      }
+    }
+
+    function limparAnalisador() {
+      document.getElementById('texto-mensagem').value = '';
+      document.getElementById('resultado-analise').classList.add('hidden');
+      window.speechSynthesis.cancel();
+    }
+
+
+    // --- JOGO DE TREINO (PERGUNTAS E RESPOSTAS) ---
+    const perguntasQuiz = [
+      {
+        pergunta: "Recebe uma chamada do seu banco a dizer que clonaram a sua conta e pedem a sua senha para resolver. O que deve fazer?",
+        opcoes: [
+          { texto: "Dar a senha rápido para que eles resolvam o problema.", correta: false },
+          { texto: "Desligar na hora e ligar para o número oficial do seu banco ou ir direto ao balcão.", correta: true }
+        ],
+        explicacao: "Os bancos legítimos NUNCA pedem a sua palavra-passe ou código secreto por telefone. Desligue sempre!",
+        audioText: "Pergunta 1. Recebe uma chamada do banco a pedir a sua senha. Resposta certa: Desligar na hora e ligar para o número oficial ou ir direto ao balcão do seu banco."
+      },
+      {
+        pergunta: "Um número de telemóvel estranho envia-lhe mensagem a dizer: 'Olá pai, mudei de número. Preciso de dinheiro para pagar uma conta'. Qual a atitude correta?",
+        opcoes: [
+          { texto: "Fazer o pagamento imediatamente para ajudar o seu filho.", correta: false },
+          { texto: "Não enviar nada e telefonar para o número antigo do seu filho para falar com ele por voz.", correta: true }
+        ],
+        explicacao: "Os burlões usam fotos dos seus familiares para se fazerem passar por eles. Confirme sempre falando por voz antes de dar dinheiro!",
+        audioText: "Pergunta 2. Mensagem de número desconhecido a dizer que é o seu filho e que precisa de dinheiro. Resposta certa: Não enviar nada e telefonar para o número de sempre do seu filho para ouvir a voz dele."
+      },
+      {
+        pergunta: "Para criar uma palavra-passe bem forte e segura para a sua conta, o que deve usar?",
+        opcoes: [
+          { texto: "A sua data de nascimento ou o seu primeiro nome.", correta: false },
+          { texto: "Uma frase ou combinação de palavras com números e símbolos como pontos ou cardinais.", correta: true }
+        ],
+        explicacao: "Misturar palavras improváveis como 'CafeComPao#2026' torna as suas contas extremamente difíceis de invadir por hackers.",
+        audioText: "Pergunta 3. Para criar uma palavra-passe bem segura, o que deve usar? Resposta certa: Uma frase ou combinação de palavras com números e símbolos especiais."
+      }
+    ];
+
+    let indicePerguntaAtual = 0;
+    let pontosQuiz = 0;
+
+    function reiniciarQuiz() {
+      indicePerguntaAtual = 0;
+      pontosQuiz = 0;
+      exibirPergunta();
+    }
+
+    function exibirPergunta() {
+      const card = document.getElementById('card-quiz');
+      if (indicePerguntaAtual >= perguntasQuiz.length) {
+        // Fim do Jogo
+        card.innerHTML = `
+          <div class="text-center space-y-6">
+            <span class="text-6xl">🏆</span>
+            <h3 class="text-3xl font-extrabold text-blue-900">Parabéns! Chegou ao fim do treino!</h3>
+            <p class="text-xl text-gray-700">Acertou <strong>${pontosQuiz}</strong> de <strong>${perguntasQuiz.length}</strong> situações de segurança.</p>
+            <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-200">
+              <p class="text-lg text-blue-950 font-bold">Lembre-se sempre: Desconfie, confirme por telefone com conhecidos e nunca dê as suas senhas a ninguém!</p>
+            </div>
+            <button onclick="reiniciarQuiz()" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xl rounded-2xl transition shadow">
+              Jogar de Novo
+            </button>
+          </div>
+        `;
+        ouvirTexto(`Parabéns! Chegou ao fim do treino. Acertou ${pontosQuiz} de ${perguntasQuiz.length} situações. Lembre-se: na dúvida, desconfie sempre.`);
+        return;
+      }
+
+      const dadosPerg = perguntasQuiz[indicePerguntaAtual];
+      
+      let botoesOpcoes = '';
+      dadosPerg.opcoes.forEach((opcao, idx) => {
+        botoesOpcoes += `
+          <button onclick="responderQuiz(${idx}, ${opcao.correta})" class="w-full text-left p-5 border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 rounded-2xl font-bold text-lg transition flex items-start gap-3">
+            <span class="bg-gray-100 px-3 py-1.5 rounded-xl border border-gray-300 shrink-0">${idx === 0 ? 'A' : 'B'}</span>
+            <span class="text-gray-900 pt-1">${opcao.texto}</span>
+          </button>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="space-y-6">
+          <div class="flex justify-between items-center border-b pb-4">
+            <span class="text-lg font-bold text-blue-800 uppercase tracking-wide">Desafio ${indicePerguntaAtual + 1} de ${perguntasQuiz.length}</span>
+            <button onclick="ouvirTexto(\`${dadosPerg.audioText}\`)" class="px-4 py-1.5 bg-green-600 text-white rounded-full font-bold flex items-center gap-1.5 hover:bg-green-700 text-sm">
+              <span>🔊 Ouvir Pergunta</span>
+            </button>
+          </div>
+          
+          <h4 class="text-2xl font-bold text-gray-900 leading-tight">${dadosPerg.pergunta}</h4>
+          
+          <div class="space-y-3">
+            ${botoesOpcoes}
+          </div>
+          
+          <div id="feedback-quiz" class="hidden p-5 rounded-2xl border-2 transition">
+            <!-- Feedbacks dinâmicos surgem aqui -->
+          </div>
+        </div>
+      `;
+    }
+
+    function responderQuiz(indiceOpcao, correta) {
+      const feedback = document.getElementById('feedback-quiz');
+      const dadosPerg = perguntasQuiz[indicePerguntaAtual];
+      
+      if (correta) {
+        pontosQuiz++;
+        feedback.className = "p-5 rounded-2xl border-2 border-green-500 bg-green-50 text-green-950 space-y-2";
+        feedback.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">🎉</span>
+            <strong class="text-xl">Excelente! Resposta Correta!</strong>
+          </div>
+          <p class="text-lg">${dadosPerg.explicacao}</p>
+        `;
+        ouvirTexto("Excelente! Resposta correta. " + dadosPerg.explicacao);
+      } else {
+        feedback.className = "p-5 rounded-2xl border-2 border-red-500 bg-red-50 text-red-950 space-y-2";
+        feedback.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">⚠️</span>
+            <strong class="text-xl">Atenção! Esta resposta é perigosa.</strong>
+          </div>
+          <p class="text-lg">${dadosPerg.explicacao}</p>
+        `;
+        ouvirTexto("Atenção! Esta resposta é perigosa. " + dadosPerg.explicacao);
+      }
+      
+      feedback.classList.remove('hidden');
+
+      // Desativa todos os botões de opção para evitar cliques múltiplos
+      const botoes = document.querySelectorAll('#card-quiz button');
+      botoes.forEach(b => {
+        if (!b.innerText.includes('🔊')) b.disabled = true;
+      });
+
+      // Adiciona botão para avançar
+      feedback.innerHTML += `
+        <div class="pt-2">
+          <button onclick="avancarQuiz()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-lg transition flex items-center gap-1">
+            <span>Avançar para a próxima</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      `;
+    }
+
+    function avancarQuiz() {
+      window.speechSynthesis.cancel();
+      indicePerguntaAtual++;
+      exibirPergunta();
+    }
+
+
+    // --- GESTÃO DE CONTACTOS DE FAMILIARES ---
+    let contactosFamiliares = [];
+
+    // Carregar contactos default se vazio
+    function carregarContactosDefault() {
+      contactosFamiliares = [
+        { nome: "Filha Maria (Exemplo)", telefone: "912345678" }
+      ];
+      desenharListaContactos();
+    }
+
+    function desenharListaContactos() {
+      const container = document.getElementById('lista-contactos');
+      if (contactosFamiliares.length === 0) {
+        container.innerHTML = `<p class="text-gray-500 italic">Nenhum familiar registado ainda. Adicione abaixo!</p>`;
+        return;
+      }
+
+      container.innerHTML = '';
+      contactosFamiliares.forEach((c, idx) => {
+        container.innerHTML += `
+          <div class="bg-white p-4 rounded-xl border border-gray-300 flex items-center justify-between gap-3 shadow-sm">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-blue-100 text-blue-700 rounded-full text-xl font-bold">👤</div>
+              <div>
+                <strong class="text-xl text-gray-900 block">${c.nome}</strong>
+                <span class="text-gray-600 text-lg">${c.telefone}</span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <a href="tel:${c.telefone}" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition text-base">
+                📞 Ligar
+              </a>
+              <button onclick="removerContacto(${idx})" class="px-3 py-2 bg-gray-200 hover:bg-red-100 hover:text-red-600 text-gray-600 font-bold rounded-lg transition text-base" aria-label="Remover contacto">
+                Apagar
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function adicionarContacto() {
+      const nomeInput = document.getElementById('novo-nome');
+      const telInput = document.getElementById('novo-tel');
+
+      const nome = nomeInput.value.trim();
+      const tel = telInput.value.trim();
+
+      if (!nome || !tel) {
+        mostrarToast("Preencha o nome e o telemóvel por favor!");
+        return;
+      }
+
+      contactosFamiliares.push({ nome, telefone: tel });
+      nomeInput.value = '';
+      telInput.value = '';
+      
+      desenharListaContactos();
+      mostrarToast("Familiar adicionado com sucesso!");
+    }
+
+    function removerContacto(index) {
+      contactosFamiliares.splice(index, 1);
+      desenharListaContactos();
+      mostrarToast("Contacto removido.");
+    }
+
+    // Inicialização da Página
+    window.onload = function() {
+      carregarContactosDefault();
+    };
+
+  </script>
+</body>
+</html>
